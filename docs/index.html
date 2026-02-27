@@ -1,12 +1,356 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Rustleaf</title>
-  </head>
-  <body>
-    <h1>Rustleaf</h1>
-    <p>We make games on Airship.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="assets/leaf_logo.svg">
+  <title>Rustleaf</title>
+  <meta name="description" content="Rustleaf is a small studio building comfy games on Airship." />
+  <meta name="theme-color" content="#0c0a08" />
+
+  <style>
+    :root{
+      /* warm dark */
+      --bg0:#0c0a08;
+      --bg1:#12100d;
+      --panel: rgba(20,18,15,.72);
+      --stroke: rgba(255,255,255,.09);
+
+      --text:#f2efe9;
+      --muted: rgba(242,239,233,.70);
+
+      --rust:#f07a2b;
+      --rust2:#c25a1a;
+      --cream:#ffd6a6;
+
+      --r: 20px;
+      --shadow: 0 22px 70px rgba(0,0,0,.58);
+      --shadow2: 0 12px 35px rgba(0,0,0,.34);
+
+      --max: 1100px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: var(--bg0);
+      color: var(--text);
+      overflow-x:hidden;
+    }
+
+    /* one smooth warm background layer */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(1100px 760px at 50% -10%, rgba(240,122,43,.18), transparent 62%),
+        radial-gradient(900px 650px at 18% 18%, rgba(255,214,166,.10), transparent 60%),
+        radial-gradient(900px 700px at 85% 35%, rgba(194,90,26,.12), transparent 62%),
+        linear-gradient(180deg, #080604 0%, var(--bg0) 38%, #070503 100%);
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:focus-visible{
+      outline:2px solid rgba(240,122,43,.65);
+      outline-offset:3px;
+      border-radius: 12px;
+    }
+
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+
+    header{
+      position: sticky;
+      top:0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(12,10,8,.72), rgba(12,10,8,.35));
+      border-bottom: 1px solid var(--stroke);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 16px 0;
+      gap: 14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      user-select:none;
+    }
+
+    .logo{
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      display:block;
+    }
+
+    .brand .name{ font-weight: 800; font-size: 14px; letter-spacing:.2px; }
+    .brand .tag{ font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+    .nav-right{ display:flex; gap: 10px; align-items:center; }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: rgba(20,18,15,.45);
+      box-shadow: var(--shadow2);
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(240,122,43,.45);
+      background: rgba(20,18,15,.62);
+    }
+    .btn.primary{
+      border-color: rgba(240,122,43,.60);
+      background: linear-gradient(180deg, rgba(240,122,43,.22), rgba(20,18,15,.45));
+    }
+
+    main{ padding: 64px 0 86px; }
+
+    /* Airship-like hero: centered, lots of whitespace */
+    .hero{
+      text-align:center;
+      padding: 44px 0 22px;
+    }
+
+    h1{
+      margin: 0;
+      font-size: clamp(40px, 5vw, 68px);
+      letter-spacing: -0.04em;
+      line-height: 1.06;
+    }
+    .sub{
+      margin: 16px auto 0;
+      color: var(--muted);
+      font-size: clamp(15px, 1.6vw, 19px);
+      line-height: 1.65;
+      max-width: 68ch;
+    }
+
+    .cta{
+      margin-top: 26px;
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .tiny{
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(242,239,233,.55);
+    }
+
+    /* Featured block */
+    .featured{
+      margin-top: 34px;
+      border-radius: calc(var(--r) + 2px);
+      border: 1px solid var(--stroke);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+
+      opacity:0;
+      transform: translateY(12px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .featured.show{ opacity:1; transform: translateY(0); }
+
+    .featured-inner{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      padding: 18px;
+      align-items: stretch;
+    }
+
+    .cover{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      background: rgba(0,0,0,.25);
+      min-height: 260px;
+      position: relative;
+    }
+    .cover img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+      filter: saturate(1.02) contrast(1.03);
+    }
+    .cover::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(500px 260px at 30% 20%, rgba(240,122,43,.12), transparent 55%),
+                  linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.32));
+      pointer-events:none;
+    }
+
+    .meta{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding: 6px 6px 6px 2px;
+      text-align:left;
+      gap: 10px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      width: fit-content;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(20,18,15,.35);
+      color: rgba(242,239,233,.78);
+      font-size: 12px;
+    }
+    .dot{
+      width: 8px; height: 8px; border-radius: 99px;
+      background: var(--rust);
+      box-shadow: 0 0 0 7px rgba(240,122,43,.10);
+    }
+
+    .gtitle{
+      margin: 2px 0 0;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .gdesc{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 52ch;
+    }
+
+    .meta .actions{
+      margin-top: 10px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    footer{
+      margin-top: 26px;
+      color: rgba(242,239,233,.55);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 0 2px;
+    }
+
+    @media (max-width: 920px){
+      main{ padding: 52px 0 76px; }
+      .featured-inner{ grid-template-columns: 1fr; }
+      .cover{ min-height: 220px; }
+      .nav-right .btn:not(.primary){ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="#" aria-label="Rustleaf home">
+          <img src="assets/leaf_logo.svg" alt="Rustleaf logo" class="logo">
+          <div style="display:flex;flex-direction:column;line-height:1.1">
+            <div class="name">Rustleaf</div>
+            <div class="tag">Airship Game Studio</div>
+          </div>
+        </a>
+
+        <div class="nav-right">
+          <a class="btn primary" href="https://airship.gg/g/ggfarm" target="_blank" rel="noreferrer">Play GG Farm →</a>
+          <a class="btn" href="https://discord.gg/jFwz3bvFhb" target="_blank" rel="noreferrer">Discord ↗</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <h1>We make games on Airship.</h1>
+        <p class="sub">
+          Rustleaf is a small studio of two developers.<br>
+          We make games on Airship. That's all.
+        </p>
+
+        <div class="cta">
+          <a class="btn primary" href="https://airship.gg/g/ggfarm" target="_blank" rel="noreferrer">Play GG Farm</a>
+          <a class="btn" href="https://discord.gg/jFwz3bvFhb" target="_blank" rel="noreferrer">Join Discord</a>
+        </div>
+
+        <div class="tiny">Latest release</div>
+      </section>
+
+      <section class="featured" id="featured" aria-label="Featured game">
+        <div class="featured-inner">
+          <div class="cover" aria-label="GG Farm cover">
+            <img
+              src="https://cdn.airship.gg/images/4ed8bf78-4fa7-4c9c-b4db-97db3f783e72"
+              alt="GG Farm cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="meta">
+            <div class="pill"><span class="dot" aria-hidden="true"></span> Live on Airship</div>
+            <div class="gtitle">GG Farm</div>
+            <p class="gdesc">
+              Plant, grow, upgrade — repeat. A comfy farming loop with ongoing updates and tuning.
+            </p>
+
+            <div class="actions">
+              <a class="btn primary" href="https://airship.gg/g/ggfarm" target="_blank" rel="noreferrer">Play →</a>
+              <a class="btn" href="https://discord.gg/jFwz3bvFhb" target="_blank" rel="noreferrer">Discord ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div>© <span id="y"></span> Rustleaf</div>
+        <div style="display:flex; gap:10px;">
+          <a href="https://airship.gg/g/ggfarm" target="_blank" rel="noreferrer">GG Farm</a>
+          <span style="opacity:.35">·</span>
+          <a href="https://discord.gg/jFwz3bvFhb" target="_blank" rel="noreferrer">Discord</a>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+    requestAnimationFrame(() => document.getElementById("featured").classList.add("show"));
+  </script>
+</body>
 </html>
