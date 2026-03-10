@@ -22,16 +22,16 @@
     <header class="header">
         <div class="header-panel">
             <div class="logo">
-                <img src="/src/img/leaf-logo.svg" alt="leaf-logo">
+                <img src="src/img/leaf-logo.svg" alt="leaf-logo">
             <div class="logo-name">Rustleaf</div>
             </div>
             <nav class="nav-panel">
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#stats">Stats</a></li>
+                    <li><a href="#games">Games</a></li>
                     <li><a href="#faq">FAQ</a></li>
                 </ul>
-                <button id="play-btn" class="play-btn">Play GG Farm</button>
+                <button id="#games" class="play-btn">Play our games</button>
                 <button id="dc-btn" class="dc-btn">Discord</button>
             </nav>
         </div>
@@ -49,56 +49,31 @@
                 We make games on Airship. That's all. 
             </p>
             <div class="home-buttons">
-                <button id="play-btn" class="play-btn">Play GG Farm</button>
+                <button id="#games" class="play-btn">Play our games</button>
                 <button id="dc-btn" class="dc-btn">Discord</button>
             </div>
-            <div class="card-panel">
-                <div class="card">
-                    <div class="card-img">
-                        <img src="https://cdn.airship.gg/images/c0101a72-4e65-4dc8-86e9-cc8c1a1550cf" alt="card-img-preview">
-                    </div>
-                    <div class="card-info">
-                        <div class="card-status">
-                            <div class="card-dot"></div>
-                            <p>
-                                Online:
-                                <span id="api-online" class="card-hg">6</span>
-                            </p>
-                        </div>
-                        <h1>GG Farm</h1>
-                        <p>Plant, grow, upgrade — repeat. A comfy farming loop with ongoing updates and tuning.</p>
-                        <div class="card-buttons">
-                            <button id="play-btn" class="play-btn">Play GG Farm</button>
-                            <button id="dc-btn" class="dc-btn">Discord</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <i class="fi fi-sr-angle-down"></i>
         </div>
     </section>
 
-    <section class="stats" id="stats">
-        <div class="stats-panel">
+    <section class="games" id="games">
+        <div class="games-panel">
             <h1>
-                <span class="stats-hg">GG Farm</span>
-                Statistics
+                Explore
+                <span class="games-hg">Our</span>
+                Games
             </h1>
-            <div class="stats-card">
-                <div class="stats-item">
-                    <i class="fi fi-sr-play"></i> 
-                    <h1>Plays</h1>
-                    <span id="api-plays" class="card-hg">0</span>
+            <div class="card-wrap">
+                <button class="card-btn" id="prev-btn">
+                    <i class="fi fi-sr-angle-small-left"></i>
+                </button>
+                <div class="card-panel">
+
                 </div>
-                <div class="stats-item">
-                    <i class="fi fi-sr-time-twenty-four"></i>
-                    <h1>Plays in 24h</h1>
-                    <span id="api-plays24h" class="card-hg">0</span>
-                </div>
-                <div class="stats-item">
-                    <i class="fi fi-sr-user"></i> 
-                    <h1>Players Online</h1>
-                     <span id="api-online" class="card-hg">0</span>
-                </div>
+                <button class="card-btn" id="next-btn">
+                    <i class="fi fi-sr-angle-small-right"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -187,8 +162,6 @@
     </footer>
 
     <script src="src/script.js"></script>
-    <script src="src/particles.js"></script>
-    <script src="src/app.js"></script>
 
 </body>
 </html>

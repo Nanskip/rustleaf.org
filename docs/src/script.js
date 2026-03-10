@@ -8,32 +8,131 @@ const dcBtn = document.querySelectorAll(".dc-btn");
 const faqPanel = document.querySelectorAll(".faq-panel");
 
 const homePanel = document.querySelectorAll(".home-panel > *");
-const cardPanel = document.querySelectorAll(".card > *");
 
 function showElements() {
-
     homePanel.forEach((el, index) => {
         el.style.transitionDelay = `${index * 0.2}s`;
         el.classList.add("active");
     });
 }
 
-async function fetchAll() {
+//DATA CARDS SUKA NAHUI  :[
+
+const cardPanel = document.querySelector(".card-panel");
+let currentIndex = 0;
+
+const cardsData = [
+    {
+        img: "https://cdn.airship.gg/images/c0101a72-4e65-4dc8-86e9-cc8c1a1550cf",
+        title: "GG Farm",
+        description: "Plant, grow, upgrade — repeat. A comfy farming loop with ongoing updates and tuning.",
+        playLink: "https://airship.gg/g/ggfarm",
+        discordLink: "https://discord.com/invite/jFwz3bvFhb",
+        api: "https://api.airship.gg/content/games/slug/ggfarm?liveStats=true"
+    },
+    {
+        img: "https://cdn.airship.gg/images/b1efac3c-084f-4395-864e-bd8787d5cb6d",
+        title: "Drive",
+        description: "Plant, grow, upgrade — repeat. A comfy farming loop with ongoing updates and tuning.",
+        playLink: "https://airship.gg/g/4cc4789d-5b41-4e13-8cda-60ab6a6496c3",
+        discordLink: "https://discord.com/invite/jFwz3bvFhb",
+        api: "https://api.airship.gg/content/games/slug/4cc4789d-5b41-4e13-8cda-60ab6a6496c3?liveStats=true"
+    }
+];
+
+async function renderCard(index) {
+    const data = cardsData[index];
+
     const res = await fetch(
-        "https://api.airship.gg/content/games/slug/68205ca8-cf2f-4500-a61c-372e2a954d1e?liveStats=true"
+        data.api
     );
-    const data = await res.json();
-    const onlineCount = data.game.liveStats.playerCount;
-    const plays24hCount = data.game.plays24h;
-    const playsCount = data.game.plays;
+    const dataAPI = await res.json();
+    const onlineCount = dataAPI.game.liveStats.playerCount;
+    const playsCount = dataAPI.game.plays;
 
-    console.log(onlineCount);
-    console.log(plays24hCount);
-    console.log(playsCount);
 
+    cardPanel.innerHTML = `
+        <div class="card card-in">
+            <div class="card-img">
+                <img src="${data.img}" alt="card-img-preview">
+            </div>
+            <div class="card-info">
+                <div class="card-status"> 
+
+                    <div class="card-dot"></div>
+                    <div class="status-info">
+                        <p>
+                            Plays:
+                            <span id="api-online" class="card-hg">${playsCount}</span>
+                        </p>
+                        <p>
+                            Online:
+                            <span id="api-online" class="card-hg">${onlineCount}</span>
+                        </p>
+                        
+                        
+                    </div>
+                </div>
+                <h1>${data.title}</h1>
+                <p>${data.description}</p>
+                <div class="card-buttons">
+                    <button class="play-btn">Play ${data.title}</button>
+                    <button class="dc-btn">Discord</button>
+                </div>
+            </div>
+        </div>
+    `;
+    const playBtn = cardPanel.querySelector(".play-btn");
+    const dcBtn = cardPanel.querySelector(".dc-btn");
+
+    playBtn.onclick = () => window.open(data.playLink, "_blank");
+    dcBtn.onclick = () => window.open(data.discordLink, "_blank");
+}
+
+function changeCard(newIndex) {
+    const card = cardPanel.querySelector(".card");
+
+    if (!card) {
+        renderCard(newIndex);
+        currentIndex = newIndex;
+        return;
+    }
+
+    card.classList.remove("card-in");
+    card.classList.add("card-out");
+
+    let isChanged = false;
+    const triggerChange = () => {
+        if (!isChanged) {
+            isChanged = true;
+            renderCard(newIndex);
+            currentIndex = newIndex;
+        }
+    };
+
+    card.addEventListener("animationend", triggerChange, { once: true });
+    setTimeout(triggerChange, 100);
+}
+
+
+
+document.getElementById("prev-btn").addEventListener("click", () => {
+    const newIndex = (currentIndex - 1 + cardsData.length) % cardsData.length;
+    changeCard(newIndex);
+});
+
+document.getElementById("next-btn").addEventListener("click", () => {
+    const newIndex = (currentIndex + 1) % cardsData.length;
+    changeCard(newIndex);
+});
+
+
+async function setAll() {
     playBtn.forEach(button => {
         button.addEventListener('click', () => {
-            window.open("https://airship.gg/g/ggfarm", '_blank');
+            document.querySelector("#games").scrollIntoView({
+                behavior: "smooth"
+            });
         });
     })
     
@@ -42,24 +141,9 @@ async function fetchAll() {
             window.open("https://discord.com/invite/jFwz3bvFhb", '_blank');
         });
     });
-
-    onlineSpan.forEach(span => {
-        span.textContent = onlineCount; 
-    }); 
-
-    plays24hSpan.forEach(span => {
-        span.textContent = plays24hCount; 
-    }); 
-
-    playsSpan.forEach(span => {
-        span.textContent = playsCount; 
-    });
-
-    faqPanel.forEach(faqCard => {
-        faqCard.addEventListener
-    });
 }
 
 
-fetchAll();
+setAll();
 window.addEventListener("load", showElements);
+renderCard(currentIndex);
