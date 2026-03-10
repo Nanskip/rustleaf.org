@@ -33,7 +33,7 @@ const cardsData = [
     {
         img: "https://cdn.airship.gg/images/b1efac3c-084f-4395-864e-bd8787d5cb6d",
         title: "Drive",
-        description: "Plant, grow, upgrade — repeat. A comfy farming loop with ongoing updates and tuning.",
+        description: "Simple driving game. Reach the highest score you can!",
         playLink: "https://airship.gg/g/4cc4789d-5b41-4e13-8cda-60ab6a6496c3",
         discordLink: "https://discord.com/invite/jFwz3bvFhb",
         api: "https://api.airship.gg/content/games/slug/4cc4789d-5b41-4e13-8cda-60ab6a6496c3?liveStats=true"
