@@ -23,6 +23,14 @@ let currentIndex = 0;
 
 const cardsData = [
     {
+        img: "https://cdn.airship.gg/images/9c6456df-e5a8-4ae4-8604-d9ca552ece14",
+        title: "Ice Arena",
+        description: "Knock out other players from Ice Arena! Win more to get at highest positions on leaderboard!",
+        playLink: "https://airship.gg/g/72d38f5a-4e33-469f-bc1b-b0595e5b1c0e",
+        discordLink: "https://discord.com/invite/jFwz3bvFhb",
+        api: "https://api.airship.gg/content/games/slug/72d38f5a-4e33-469f-bc1b-b0595e5b1c0e?liveStats=true"
+    },
+    {
         img: "https://cdn.airship.gg/images/c0101a72-4e65-4dc8-86e9-cc8c1a1550cf",
         title: "GG Farm",
         description: "Plant, grow, upgrade — repeat. A comfy farming loop with ongoing updates and tuning.",
