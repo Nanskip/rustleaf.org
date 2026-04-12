@@ -45,6 +45,14 @@ const cardsData = [
         playLink: "https://airship.gg/g/4cc4789d-5b41-4e13-8cda-60ab6a6496c3",
         discordLink: "https://discord.com/invite/jFwz3bvFhb",
         api: "https://api.airship.gg/content/games/slug/4cc4789d-5b41-4e13-8cda-60ab6a6496c3?liveStats=true"
+    },
+    {
+        img: "https://cdn.airship.gg/images/06b2f728-a0cb-4ab7-8a5e-3fd273e05828",
+        title: "Coin Clicker",
+        description: "Click, upgrade, beat leaderboards! Simple clicker for ones who like to chill out.",
+        playLink: "https://airship.gg/g/4a5b2307-ff05-426f-af7a-47305a54d4ce",
+        discordLink: "https://discord.com/invite/jFwz3bvFhb",
+        api: "https://api.airship.gg/content/games/slug/4a5b2307-ff05-426f-af7a-47305a54d4ce?liveStats=true"
     }
 ];
 
